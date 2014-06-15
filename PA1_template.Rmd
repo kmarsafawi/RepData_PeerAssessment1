@@ -1,12 +1,58 @@
 # Reproducible Research: Peer Assessment 1
+========================================================
 
+
+```{r setoptions, echo=FALSE}
+opts_chunk$set(echo=TRUE)
+```
 
 ## Loading and preprocessing the data
 
+_**1 - Load the data**_
+* Setup the working directory.
+* File activity.zip contains data, Unzip the file to the same directory.
+* Read the data from activity.csv file by using the read.csv command.
+* Missing readings are denoted by NA.
 
+
+```{r dataloading}
+setwd("D:\\T400\\Documents and Settings\\user\\Dropbox\\Coursera\\5 Reproducible Research\\Project1")
+unzip( "repdata_data_activity.zip")
+data <- read.csv("activity.csv", header=TRUE, na.strings="NA")
+``` 
+
+_**2 - Transform the data to a suitable analysis data type / format**_
+
+```{r datatransform}
+ data <- transform(data, date = as.Date( date, "%Y-%m-%d"))
+ str(data)
+```
 
 ## What is mean total number of steps taken per day?
 
+_**1 - Explore the data set**_
+* Remove NA values
+
+```{r removeNA}
+data <- na.omit(data)
+```
+
+* Aggregate and explore the new shape of the data.
+
+```{r aggregation}
+agg <- with(data, aggregate( steps ~ date, FUN=sum))
+with(agg, hist(steps, breaks=55) )
+```
+
+_**2 - Calculating the mean and median for the daily steps**_
+* Using mean and median of the data set we get these values.
+
+```{r gettingmean, results="asis"}
+meantot <- mean(agg$steps)
+mediantot <- median(agg$steps)
+```
+* Mean   : **`r meantot`**
+* Median : **`r mediantot`**
 
 
 ## What is the average daily activity pattern?
@@ -18,3 +64,8 @@
 
 
 ## Are there differences in activity patterns between weekdays and weekends?
+
+
+
+
+
